@@ -2,6 +2,9 @@
   "name": "react-list-swap-item",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "npm": "please_use_yarn_instead"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
