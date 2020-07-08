@@ -25,22 +25,17 @@ const FRIENDS = [
 export default class App extends Component {
   constructor() {
     super()
-    this.state = {};
-  }
-
-  componentWillMount() {
-    FRIENDS.forEach(friend => {
-      this.setState({
-        ...this.state,
-        [friend.id]: 0
-      })
-    })
+    this.state = {
+      friends: FRIENDS
+    };
   }
 
   render() {
+    const contents = this.state;
+    console.log("rendered componentDidMount: ",contents);
     return (
       <Fragment>
-        <Lists></Lists>
+        <Lists contents={contents} />
       </Fragment>
     )
   }
