@@ -25,9 +25,28 @@ const FRIENDS = [
 export default class App extends Component {
   constructor() {
     super()
+
+    this.handleCheckedTr = this.handleCheckedTr.bind(this);
+    this.handleChangedItem = this.handleChangedItem.bind(this);
+
     this.state = {
-      friends: FRIENDS
+      friends: FRIENDS,
+      checkedId: null
     };
+  }
+
+  handleCheckedTr(e) {
+    const selectedItem = e.currentTarget.children[0].children[0].id;
+    this.setState({
+      checkedId: selectedItem
+    });
+  }
+
+  handleChangedItem(e) {
+    const clickedItem = e.currentTarget.id;
+    this.setState({
+      checkedId: clickedItem
+    });
   }
 
   render() {
@@ -35,7 +54,11 @@ export default class App extends Component {
     console.log("rendered componentDidMount: ",contents);
     return (
       <Fragment>
-        <Lists contents={contents} />
+        <Lists
+          contents={contents}
+          handleCheckedTr={this.handleCheckedTr}
+          handleChangedItem={this.handleChangedItem}
+        />
       </Fragment>
     )
   }

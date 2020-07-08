@@ -6,7 +6,10 @@ const Lists = (props) => {
     return friends.map((friend) => {
       console.log(friend);
       return (
-        <tr key={`item-${friend.id}`}>
+        <tr key={`item-${friend.id}`} onClick={props.handleCheckedTr}>
+          <td>
+            <input id={friend.id} type="radio" checked={props.contents.checkedId === friend.id ?? true} onChange={props.handleChangedItem}/>
+          </td>
           <td>{friend.nameJa}</td>
           <td>{friend.nameEn}</td>
           <td>{friend.family}</td>
@@ -24,6 +27,7 @@ const Lists = (props) => {
       <table>
         <thead>
           <tr>
+            <td>選択</td>
             <td>日本語名</td>
             <td>アメリカ語名</td>
             <td>学術名</td>
