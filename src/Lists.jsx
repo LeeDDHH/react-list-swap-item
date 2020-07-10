@@ -1,36 +1,36 @@
 import React, { Fragment } from 'react'
 
 const Lists = (props) => {
-  const members = (friends) => {
-    console.log("friends: ",friends);
-    return friends.map((friend) => {
-      console.log(friend);
+  const members = (persons) => {
+    return persons.map((person) => {
       return (
-        <tr key={`item-${friend.id}`} onClick={props.handleCheckedTr}>
+        <tr key={`item-${person.id}`} onClick={props.handleCheckedTr}>
           <td>
-            <input id={friend.id} type="radio" checked={props.contents.checkedId === friend.id ?? true} onChange={props.handleChangedItem}/>
+            <input
+              id={person.id}
+              type="radio"
+              checked={props.contents.checkedId === person.id ?? true}
+              onChange={props.handleChangedItem}
+            />
           </td>
-          <td>{friend.nameJa}</td>
-          <td>{friend.nameEn}</td>
-          <td>{friend.family}</td>
+          <td>{person.name}</td>
+          <td>{person.institution}</td>
+          <td>{person.remark}</td>
         </tr>
       );
     });
   };
 
-  console.log("props: ", props.contents);
-  console.log("length: ", props.contents.friends.length);
-  const member = props.contents.friends.length > 0 ? members(props.contents.friends) : null;
-  console.log("member: ", member);
+  const member = props.contents.persons.length > 0 ? members(props.contents.persons) : null;
   return (
     <Fragment>
       <table>
         <thead>
           <tr>
             <td>選択</td>
-            <td>日本語名</td>
-            <td>アメリカ語名</td>
-            <td>学術名</td>
+            <td>候補者</td>
+            <td>所属</td>
+            <td>備考</td>
           </tr>
         </thead>
         <tbody>{member}</tbody>
