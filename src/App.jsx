@@ -1,84 +1,49 @@
 import React, { Component, Fragment } from 'react'
-import Lists from './Lists';
-import ItemControl from "./ItemControl";
+import List from './parts/List';
+import ItemControl from "./parts/ItemControl";
 
-const Person = [
-  {
-    id: "person_a",
-    name: "候補A",
-    institution: "無所属",
-    remark: "密です",
-  },
-  {
-    id: "person_b",
-    name: "候補B",
-    institution: "無所属",
-    remark: "足りないのは愛と金だ",
-  },
-  {
-    id: "person_c",
-    name: "候補C",
-    institution: "無所属",
-    remark: "コロナはただの風邪",
-  },
-];
+import { Memes } from "./Memes";
 
 export default class App extends Component {
   constructor() {
     super()
 
-    this.handleCheckedTr = this.handleCheckedTr.bind(this);
-    this.handleChangedItem = this.handleChangedItem.bind(this);
-    this.handleMoveItem = this.handleMoveItem.bind(this);
-    this.noMoreGoUp = this.noMoreGoUp.bind(this);
-    this.noMoreGoDown = this.noMoreGoDown.bind(this);
-
     this.state = {
-      persons: Person,
-      checkedId: null,
+      memes: Memes,
+      selectedId: null,
     };
   }
 
-  handleCheckedTr(e) {
-    const selectedItem = e.currentTarget.children[0].children[0].id;
-    this.setState({
-      checkedId: selectedItem
-    });
-  }
-
-  handleChangedItem(e) {
-    const clickedItem = e.currentTarget.id;
-    this.setState({
-      checkedId: clickedItem
-    });
-  }
-
-  noMoreGoUp(index, list) {
+  _noMoreGoUp = (index, list) => {
     return !(0 < index && index < list.length) ? true : false;
   }
 
-  noMoreGoDown(index, list) {
+  _noMoreGoDown = (index, list) => {
     return !(0 <= index && index < list.length - 1) ? true : false;
   }
 
-  handleMoveItem(e) {
-    if (!this.state.checkedId) return;
+  handleCheckedItem = (e) => {
+    this.setState({
+      selectedId: Number(e.currentTarget.children[0].children[0].id)
+    });
+  }
+
+  handleMoveItem = (e) => {
+    if (!this.state.selectedId) return;
 
     const type = e.currentTarget.dataset.type;
-    const newList = this.state.persons.slice();
+    const newList = this.state.memes.slice();
 
-    const targetIndex = newList.findIndex(item =>  item.id === this.state.checkedId );
+    const targetIndex = newList.findIndex(item => item.id === this.state.selectedId);
 
     switch (type) {
       case "up":
-        if (this.noMoreGoUp(targetIndex, newList)) return;
-
+        if (this._noMoreGoUp(targetIndex, newList)) return;
         newList.splice(targetIndex - 1, 2, newList[targetIndex], newList[targetIndex - 1]);
         break;
 
       case "down":
-        if (this.noMoreGoDown(targetIndex, newList)) return;
-
+        if (this._noMoreGoDown(targetIndex, newList)) return;
         newList.splice(targetIndex, 2, newList[targetIndex + 1], newList[targetIndex]);
         break;
 
@@ -87,21 +52,29 @@ export default class App extends Component {
     }
 
     this.setState({
-      persons: newList
+      memes: newList
     });
   }
 
+  handleNeutralSelect = () => {
+    this.setState({
+      selectedId: null
+    })
+  }
+
   render() {
-    const contents = this.state;
+    const { memes, selectedId } = this.state;
     return (
       <Fragment>
-        <Lists
-          contents={contents}
-          handleCheckedTr={this.handleCheckedTr}
-          handleChangedItem={this.handleChangedItem}
+        2020年上半期キーワード
+        <List
+          memes={memes}
+          selectedId={selectedId}
+          itemChecked={this.handleCheckedItem}
         />
         <ItemControl
           moveItem={this.handleMoveItem}
+          neutralSelect={this.handleNeutralSelect}
         />
       </Fragment>
     )
